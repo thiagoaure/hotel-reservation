@@ -2,6 +2,7 @@ const hotels = require('./data/hotels');
 
 const CheapestHotel = {
     name: '',
+    classification: 0,
     totalPrice: 0,
 }
 
@@ -29,7 +30,47 @@ function countDaysOfWeek(input) {
 }
 
 function getCheapestHotel (input) { //DO NOT change the function's name.
-    return "Cheapest hotel name"
+    const {typeClient, countWeekday, countWeekend} = countDaysOfWeek(input);
+
+    if (typeClient[0] === "Regular") {
+        CheapestHotel.name =  hotels[0].name;
+        CheapestHotel.totalPrice = (hotels[0].weekday.regular * countWeekday) + (hotels[0].weekend.regular * countWeekend);
+        CheapestHotel.classification = hotels[0].classification;
+        for (let i = 0; i < hotels.length; i++) {
+            let currentPrice = (hotels[i].weekday.regular * countWeekday) + (hotels[i].weekend.regular * countWeekend);
+            if (currentPrice < CheapestHotel.totalPrice) {
+                CheapestHotel.name = hotels[i].name;
+                CheapestHotel.classification = hotels[i].classification;
+                CheapestHotel.totalPrice = currentPrice;
+            } else if (currentPrice ==  CheapestHotel.totalPrice) {
+                if(CheapestHotel.classification < hotels[i].classification) {
+                    CheapestHotel.name = hotels[i].name;
+                    CheapestHotel.classification = hotels[i].classification;
+                    CheapestHotel.totalPrice = currentPrice;
+                }
+            }
+        }
+    } else if (typeClient[0] === "Rewards") {
+        CheapestHotel.name =  hotels[0].name;
+        CheapestHotel.totalPrice = (hotels[0].weekday.reward * countWeekday) + (hotels[0].weekend.reward * countWeekend);
+        CheapestHotel.classification = hotels[0].classification;
+        for (let i = 0; i < hotels.length; i++) {
+            let currentPrice = (hotels[i].weekday.reward * countWeekday) + (hotels[i].weekend.reward * countWeekend);
+            if (currentPrice < CheapestHotel.totalPrice) {
+                CheapestHotel.name = hotels[i].name;
+                CheapestHotel.classification = hotels[i].classification;
+                CheapestHotel.totalPrice = currentPrice;
+            } else if (currentPrice ==  CheapestHotel.totalPrice) {
+                if(CheapestHotel.classification < hotels[i].classification) {
+                    CheapestHotel.name = hotels[i].name;
+                    CheapestHotel.classification = hotels[i].classification;
+                    CheapestHotel.totalPrice = currentPrice;
+                }
+            }
+        }
+
+    }
+    return CheapestHotel.name;
 }
 
 exports.getCheapestHotel = getCheapestHotel
