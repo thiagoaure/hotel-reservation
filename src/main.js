@@ -29,45 +29,59 @@ function countDaysOfWeek(input) {
     return {typeClient, countWeekday, countWeekend}
 }
 
+function getCheapestHotelRegular(countWeekday, countWeekend) {
+    CheapestHotel.name =  hotels[0].name;
+    CheapestHotel.totalPrice = (hotels[0].weekday.regular * countWeekday) + (hotels[0].weekend.regular * countWeekend);
+    CheapestHotel.classification = hotels[0].classification;
+
+    for (let i = 0; i < hotels.length; i++) {
+        let currentPrice = (hotels[i].weekday.regular * countWeekday) + (hotels[i].weekend.regular * countWeekend);
+
+        if (currentPrice < CheapestHotel.totalPrice) {
+            CheapestHotel.name = hotels[i].name;
+            CheapestHotel.classification = hotels[i].classification;
+            CheapestHotel.totalPrice = currentPrice;
+
+        } else if (currentPrice ==  CheapestHotel.totalPrice) {
+            if(CheapestHotel.classification < hotels[i].classification) {
+                CheapestHotel.name = hotels[i].name;
+                CheapestHotel.classification = hotels[i].classification;
+                CheapestHotel.totalPrice = currentPrice;
+            }
+        }
+    }
+}
+
+function getCheapestHotelReward(countWeekday, countWeekend) {
+    CheapestHotel.name =  hotels[0].name;
+    CheapestHotel.totalPrice = (hotels[0].weekday.reward * countWeekday) + (hotels[0].weekend.reward * countWeekend);
+    CheapestHotel.classification = hotels[0].classification;
+
+    for (let i = 0; i < hotels.length; i++) {
+        let currentPrice = (hotels[i].weekday.reward * countWeekday) + (hotels[i].weekend.reward * countWeekend);
+        if (currentPrice < CheapestHotel.totalPrice) {
+            CheapestHotel.name = hotels[i].name;
+            CheapestHotel.classification = hotels[i].classification;
+            CheapestHotel.totalPrice = currentPrice;
+
+        } else if (currentPrice ==  CheapestHotel.totalPrice) {
+            if(CheapestHotel.classification < hotels[i].classification) {
+                CheapestHotel.name = hotels[i].name;
+                CheapestHotel.classification = hotels[i].classification;
+                CheapestHotel.totalPrice = currentPrice;
+            }
+        }
+    }
+}
+
 function getCheapestHotel (input) { //DO NOT change the function's name.
     const {typeClient, countWeekday, countWeekend} = countDaysOfWeek(input);
 
     if (typeClient[0] === "Regular") {
-        CheapestHotel.name =  hotels[0].name;
-        CheapestHotel.totalPrice = (hotels[0].weekday.regular * countWeekday) + (hotels[0].weekend.regular * countWeekend);
-        CheapestHotel.classification = hotels[0].classification;
-        for (let i = 0; i < hotels.length; i++) {
-            let currentPrice = (hotels[i].weekday.regular * countWeekday) + (hotels[i].weekend.regular * countWeekend);
-            if (currentPrice < CheapestHotel.totalPrice) {
-                CheapestHotel.name = hotels[i].name;
-                CheapestHotel.classification = hotels[i].classification;
-                CheapestHotel.totalPrice = currentPrice;
-            } else if (currentPrice ==  CheapestHotel.totalPrice) {
-                if(CheapestHotel.classification < hotels[i].classification) {
-                    CheapestHotel.name = hotels[i].name;
-                    CheapestHotel.classification = hotels[i].classification;
-                    CheapestHotel.totalPrice = currentPrice;
-                }
-            }
-        }
+        getCheapestHotelRegular(countWeekday, countWeekend);
+        
     } else if (typeClient[0] === "Rewards") {
-        CheapestHotel.name =  hotels[0].name;
-        CheapestHotel.totalPrice = (hotels[0].weekday.reward * countWeekday) + (hotels[0].weekend.reward * countWeekend);
-        CheapestHotel.classification = hotels[0].classification;
-        for (let i = 0; i < hotels.length; i++) {
-            let currentPrice = (hotels[i].weekday.reward * countWeekday) + (hotels[i].weekend.reward * countWeekend);
-            if (currentPrice < CheapestHotel.totalPrice) {
-                CheapestHotel.name = hotels[i].name;
-                CheapestHotel.classification = hotels[i].classification;
-                CheapestHotel.totalPrice = currentPrice;
-            } else if (currentPrice ==  CheapestHotel.totalPrice) {
-                if(CheapestHotel.classification < hotels[i].classification) {
-                    CheapestHotel.name = hotels[i].name;
-                    CheapestHotel.classification = hotels[i].classification;
-                    CheapestHotel.totalPrice = currentPrice;
-                }
-            }
-        }
+       getCheapestHotelReward(countWeekday, countWeekend);
 
     }
     return CheapestHotel.name;
