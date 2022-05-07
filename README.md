@@ -14,3 +14,11 @@ To run the (failing) test:
 $ yarn test
 ```
 **After implementing your solution, it should pass the unit tests available.** 
+
+
+## To run the application
+
+```
+$ cd .\src\ 
+$ node .\main.js  
+```
