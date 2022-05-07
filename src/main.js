@@ -1,3 +1,4 @@
+let readlineSync = require('readline-sync')
 const hotels = require('./data/hotels');
 
 const CheapestHotel = {
@@ -86,5 +87,9 @@ function getCheapestHotel (input) { //DO NOT change the function's name.
     }
     return CheapestHotel.name;
 }
+
+console.log('\nEntre com o tipo de hospedagem e datas desejadas pelo cliente:');
+const input = readlineSync.question('Formato exemplo esperado:   Regular: 16Mar2009(mon), 17Mar2009(tues), 18Mar2009(wed)\n')
+console.log(getCheapestHotel(input))
 
 exports.getCheapestHotel = getCheapestHotel
